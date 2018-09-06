@@ -8,6 +8,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - api
+
   api:
     build: ${PROJECT_ROOT}/foodbasket-api/
     ports:
@@ -19,6 +20,7 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgres://foodbasket@postgres/foodbasket
+
   postgres:
     image: postgres:latest
     environment:
@@ -29,6 +31,7 @@ services:
       - 3306:5432
     volumes:
       - ../PostgresData/data:/var/lib/postgresql/data
+
   redis:
     build: ./Redis/
     ports:
@@ -38,3 +41,12 @@ services:
     command: redis-server --appendonly yes
     depends_on:
       - api
+
+  nodejs:
+    build: ./nodejs
+    volumes:
+      - "${PROJECT_ROOT}/foodbasket-nodejs:/var/www/foodbasket-nodejs"
+    ports:
+      - 8081:8080
+    depends_on:
+      - redis
