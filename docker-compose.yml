@@ -50,3 +50,15 @@ services:
       - 8081:8080
     depends_on:
       - redis
+
+  mongo:
+    image: aashreys/mongo-auth:latest
+    environment:
+      - AUTH=yes
+      - MONGODB_ADMIN_USER=foodbasket
+      - MONGODB_ADMIN_PASS=secret
+      - MONGODB_APPLICATION_DATABASE=foodbasket
+      - MONGODB_APPLICATION_USER=foodbasket
+      - MONGODB_APPLICATION_PASS=secret
+    ports:
+      - "27017:27017"    
